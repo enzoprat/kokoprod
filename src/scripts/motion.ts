@@ -46,6 +46,77 @@ export function initMotion() {
   // ---- Marquee speed binding (logos / mot géant) ----
   // Pause au survol géré en CSS.
 
+  // ---- Click vidéo → fullscreen ----
+  // Sur iOS Safari : video.webkitEnterFullscreen() ouvre le player natif
+  // (avec contrôles iOS, son, scrubbing). C'est ce que l'utilisateur attend.
+  // Ailleurs : Fullscreen API standard.
+  // Dans tous les cas on dé-mute pendant le fullscreen, puis on re-mute en sortie.
+  const phones = document.querySelectorAll<HTMLElement>('.carousel .phone');
+  phones.forEach((phone) => {
+    const video = phone.querySelector('video');
+    if (!video) return;
+
+    phone.style.cursor = 'pointer';
+    phone.setAttribute('role', 'button');
+    phone.setAttribute('tabindex', '0');
+    phone.setAttribute('aria-label', 'Lire la vidéo en plein écran');
+
+    const goFullscreen = () => {
+      // Son ON pour le fullscreen
+      video.muted = false;
+      video.controls = true;
+      // S'assurer qu'on lit
+      video.play().catch(() => {});
+
+      // iOS Safari : API spécifique au tag <video>
+      const v = video as HTMLVideoElement & {
+        webkitEnterFullscreen?: () => void;
+      };
+      if (typeof v.webkitEnterFullscreen === 'function') {
+        v.webkitEnterFullscreen();
+        return;
+      }
+
+      // Standard Fullscreen API
+      if (typeof video.requestFullscreen === 'function') {
+        video.requestFullscreen().catch(() => {});
+        return;
+      }
+
+      // Webkit non-iOS (Safari desktop)
+      const wv = video as HTMLVideoElement & {
+        webkitRequestFullscreen?: () => Promise<void>;
+      };
+      if (typeof wv.webkitRequestFullscreen === 'function') {
+        wv.webkitRequestFullscreen();
+      }
+    };
+
+    phone.addEventListener('click', goFullscreen);
+    phone.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        goFullscreen();
+      }
+    });
+
+    // Re-mute quand on sort du fullscreen iOS (event spécifique)
+    video.addEventListener('webkitendfullscreen', () => {
+      video.muted = true;
+      video.controls = false;
+    });
+  });
+
+  // Standard fullscreen exit handler (Chrome, Firefox, Safari desktop)
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) {
+      document.querySelectorAll<HTMLVideoElement>('.carousel video').forEach((v) => {
+        v.muted = true;
+        v.controls = false;
+      });
+    }
+  });
+
   // ---- Pause des <video> hors viewport (perf) ----
   // Avec ~55 vidéos sur la page, seules les ~10 visibles à un instant t
   // doivent vraiment décoder. Les autres : pause + freeze.

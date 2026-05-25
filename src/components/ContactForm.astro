@@ -23,10 +23,35 @@ const subjects = [
 
       <form
         class="form"
-        action="https://formspree.io/f/your-form-id"
+        action="https://api.web3forms.com/submit"
         method="POST"
         novalidate
       >
+        <!-- Web3Forms : clé publique côté front, OK pour ce service -->
+        <input
+          type="hidden"
+          name="access_key"
+          value="d8545e3b-b564-46ad-ae30-95c4b557c578"
+        />
+        <input
+          type="hidden"
+          name="subject"
+          value="Nouveau brief — koko prod"
+        />
+        <input
+          type="hidden"
+          name="from_name"
+          value="koko prod · site web"
+        />
+        <!-- Honeypot anti-spam (laisser vide) -->
+        <input
+          type="checkbox"
+          name="botcheck"
+          class="botcheck"
+          tabindex="-1"
+          autocomplete="off"
+        />
+
         <div class="row">
           <label class="field">
             <span class="label">Nom</span>
@@ -48,7 +73,7 @@ const subjects = [
           <label class="field">
             <span class="label">Sujet</span>
             <div class="select-wrap">
-              <select name="subject" required>
+              <select name="sujet" required>
                 {subjects.map((s) => (
                   <option value={s}>{s}</option>
                 ))}
@@ -71,10 +96,14 @@ const subjects = [
         </label>
 
         <div class="actions">
-          <button type="submit" class="submit glass-strong glass-sheen">
-            <span>Envoyer</span>
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
+          <button type="submit" class="submit glass-strong glass-sheen" data-state="idle">
+            <span class="btn-label">Envoyer</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <svg class="btn-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true">
               <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <svg class="btn-check" viewBox="0 0 24 24" width="20" height="20" fill="none" aria-hidden="true">
+              <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
           <p class="alt">
@@ -82,10 +111,72 @@ const subjects = [
             <a href="mailto:hello@kokoprod.fr">hello@kokoprod.fr</a>
           </p>
         </div>
+
+        <p class="form-msg" role="status" aria-live="polite"></p>
       </form>
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact form');
+  if (form) {
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const msg = form.querySelector<HTMLElement>('.form-msg')!;
+    const label = btn.querySelector<HTMLElement>('.btn-label')!;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Honeypot : si rempli = bot, on simule un succès silencieux
+      const honeypot = form.querySelector<HTMLInputElement>('input[name=botcheck]');
+      if (honeypot?.checked) {
+        msg.textContent = 'Message envoyé.';
+        msg.dataset.state = 'success';
+        return;
+      }
+
+      btn.dataset.state = 'loading';
+      btn.disabled = true;
+      label.textContent = 'Envoi…';
+      msg.textContent = '';
+      msg.dataset.state = '';
+
+      try {
+        const data = new FormData(form);
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        const json = await res.json();
+
+        if (res.ok && json.success) {
+          btn.dataset.state = 'success';
+          label.textContent = 'Envoyé';
+          msg.textContent = "Merci — on revient vers vous sous 48h.";
+          msg.dataset.state = 'success';
+          form.reset();
+          // On laisse l'état "envoyé" visible quelques secondes
+          setTimeout(() => {
+            btn.dataset.state = 'idle';
+            btn.disabled = false;
+            label.textContent = 'Envoyer';
+          }, 4000);
+        } else {
+          throw new Error(json.message || 'Erreur inattendue');
+        }
+      } catch (err) {
+        btn.dataset.state = 'error';
+        btn.disabled = false;
+        label.textContent = 'Réessayer';
+        msg.textContent =
+          "Impossible d'envoyer pour le moment. Écrivez-nous directement à hello@kokoprod.fr.";
+        msg.dataset.state = 'error';
+      }
+    });
+  }
+</script>
 
 <style>
   .contact {
@@ -244,6 +335,7 @@ const subjects = [
   }
 
   .submit {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -254,16 +346,86 @@ const subjects = [
     font-size: 0.98rem;
     cursor: pointer;
     overflow: hidden;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.3s ease,
+                background 0.4s ease;
+    min-width: 160px;
+    justify-content: center;
   }
 
-  .submit:hover {
+  .submit:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 22px 48px -16px rgba(40, 0, 80, 0.6);
   }
 
-  .submit svg { transition: transform 0.3s ease; }
-  .submit:hover svg { transform: translateX(4px); }
+  .submit:disabled {
+    cursor: wait;
+    opacity: 0.95;
+  }
+
+  .submit .btn-arrow { transition: transform 0.3s ease; }
+  .submit:hover:not(:disabled) .btn-arrow { transform: translateX(4px); }
+
+  /* États du bouton */
+  .btn-spinner,
+  .btn-check {
+    display: none;
+  }
+
+  .submit[data-state="loading"] .btn-arrow { display: none; }
+  .submit[data-state="loading"] .btn-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin-btn 0.7s linear infinite;
+  }
+
+  .submit[data-state="success"] {
+    background: linear-gradient(135deg, rgba(120, 220, 150, 0.4), rgba(80, 200, 130, 0.5));
+  }
+  .submit[data-state="success"] .btn-arrow { display: none; }
+  .submit[data-state="success"] .btn-check {
+    display: inline-block;
+    animation: pop-check 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .submit[data-state="error"] {
+    background: linear-gradient(135deg, rgba(255, 130, 130, 0.4), rgba(220, 80, 80, 0.5));
+  }
+
+  @keyframes spin-btn {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes pop-check {
+    0% { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* Honeypot anti-bot : visuellement et fonctionnellement caché aux humains */
+  .botcheck {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Message de feedback sous le bouton */
+  .form-msg {
+    width: 100%;
+    margin: 18px 0 0;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.75);
+    min-height: 1.2em;
+    transition: color 0.3s ease;
+  }
+  .form-msg[data-state="success"] { color: #c5f5d8; }
+  .form-msg[data-state="error"] { color: #ffc4c4; }
 
   .alt {
     margin: 0;

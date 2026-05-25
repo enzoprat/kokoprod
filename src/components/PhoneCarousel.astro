@@ -28,6 +28,14 @@ const loop = [...slides, ...slides];
       {subtitle && <span class="sub">{subtitle}</span>}
     </div>
     <span class="rule"></span>
+
+    <!-- Indicateur "swipe" : visible UNIQUEMENT sur mobile -->
+    <span class="swipe-hint" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none">
+        <path d="M9 6l-5 6 5 6M15 6l5 6-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Glissez</span>
+    </span>
   </header>
 
   <div class="carousel">
@@ -35,8 +43,11 @@ const loop = [...slides, ...slides];
       class="carousel-track"
       style={`animation-duration:${duration}s; animation-direction:${direction === 'right' ? 'reverse' : 'normal'};`}
     >
-      {loop.map((slide) => (
-        <div class="cell">
+      {loop.map((slide, i) => (
+        <div
+          class={`cell ${i >= slides.length ? 'cell-clone' : ''}`}
+          aria-hidden={i >= slides.length ? 'true' : undefined}
+        >
           <PhoneMockup
             videoSrc={slide.videoSrc}
             poster={slide.poster}
@@ -46,7 +57,38 @@ const loop = [...slides, ...slides];
       ))}
     </div>
   </div>
+
+  <!-- Dots de pagination : visibles UNIQUEMENT sur mobile.
+       Suivent la position du scroll horizontal en temps réel. -->
+  <div class="dots" aria-hidden="true">
+    {slides.map(() => <span class="dot"></span>)}
+  </div>
 </section>
+
+<script>
+  // Met à jour les dots en fonction du scroll horizontal de chaque carousel
+  // (mobile uniquement, mais le script ne nuit pas en desktop).
+  document.querySelectorAll<HTMLElement>('.row').forEach((row) => {
+    const carousel = row.querySelector<HTMLElement>('.carousel');
+    const dots = row.querySelectorAll<HTMLElement>('.dots .dot');
+    if (!carousel || !dots.length) return;
+
+    const sync = () => {
+      // Largeur d'un slide = scrollWidth / (nb cells visibles).
+      // Sur mobile les clones sont en display:none, donc on compte
+      // les vraies cells (pas .cell-clone) — c'est exactement dots.length.
+      const ratio = carousel.scrollLeft / (carousel.scrollWidth - carousel.clientWidth || 1);
+      const idx = Math.round(ratio * (dots.length - 1));
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === idx));
+    };
+
+    // Init + écoute du scroll
+    sync();
+    carousel.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+    // Re-sync si la fenêtre change de taille (rotation device, etc.)
+    window.addEventListener('resize', sync);
+  });
+</script>
 
 <style>
   .row {
@@ -96,6 +138,60 @@ const loop = [...slides, ...slides];
     background: linear-gradient(to right, rgba(255,255,255,0.22), transparent);
   }
 
+  /* ============================
+     Swipe hint (mobile uniquement)
+     ============================ */
+  .swipe-hint {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    flex-shrink: 0;
+  }
+
+  .swipe-hint svg {
+    animation: swipe-bounce 1.8s ease-in-out infinite;
+  }
+
+  @keyframes swipe-bounce {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(3px); }
+  }
+
+  /* ============================
+     Dots de pagination (mobile)
+     ============================ */
+  .dots {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 0 4px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transition: background 0.25s ease, width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dot.is-active {
+    background: #fff;
+    width: 22px;
+    border-radius: 999px;
+  }
+
   .carousel {
     width: 100%;
     overflow: hidden;
@@ -105,5 +201,82 @@ const loop = [...slides, ...slides];
 
   .cell {
     padding: 0 14px;
+  }
+
+  /* ============================
+     Mobile : scroll manuel + snap
+     ============================ */
+  @media (max-width: 768px) {
+    .carousel {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline: 50%;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      /* On l\u00e2che un peu le mask pour donner plus de surface tactile */
+      mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0, #000 4%, #000 96%, transparent 100%);
+    }
+    .carousel::-webkit-scrollbar { display: none; }
+
+    .carousel-track {
+      /* Plus de marquee : l\u2019utilisateur swipe lui-m\u00eame */
+      animation: none !important;
+      width: max-content;
+    }
+
+    .cell {
+      scroll-snap-align: center;
+      padding: 0 10px;
+    }
+
+    /* Sur mobile on n\u2019a pas besoin du doublon (pas de marquee infini),
+       \u00e7a all\u00e8ge le DOM et \u00e9vite de scroller deux fois la m\u00eame s\u00e9quence */
+    .cell-clone {
+      display: none;
+    }
+
+    /* Affordances tactiles visibles uniquement sur mobile */
+    .swipe-hint { display: inline-flex; }
+    .dots { display: flex; }
+
+    /* Layout mobile compact du header de rangée :
+       - num & titre alignés à gauche
+       - swipe-hint à droite, sur la même ligne
+       - sous-titre passe sous le titre */
+    .row-head {
+      align-items: center;
+      gap: 12px;
+    }
+    .row-head .rule { display: none; }
+
+    .num {
+      font-size: 0.7rem;
+    }
+
+    .meta {
+      flex: 1;
+      min-width: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+
+    .title {
+      font-size: 1.15rem;
+      line-height: 1.15;
+    }
+
+    .sub {
+      font-size: 0.78rem;
+      line-height: 1.2;
+    }
+
+    .swipe-hint {
+      padding: 5px 10px;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+    }
   }
 </style>

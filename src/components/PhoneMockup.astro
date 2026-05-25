@@ -29,6 +29,15 @@ const { videoSrc, poster, label } = Astro.props;
       )}
     </div>
     <div class="phone-side" aria-hidden="true"></div>
+
+    <!-- Play overlay : signale qu'on peut taper pour ouvrir en plein écran.
+         Discret au repos, plus visible au touch/hover. Désactive les clics
+         (pointer-events:none) pour que le tap atteigne bien .phone. -->
+    <div class="phone-play" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
+        <path d="M11 8l13 8-13 8V8z" fill="currentColor" />
+      </svg>
+    </div>
   </div>
 </div>
 
@@ -100,5 +109,55 @@ const { videoSrc, poster, label } = Astro.props;
     background: #000;
     border-radius: 12px;
     z-index: 2;
+  }
+
+  /* ============================
+     Play overlay (tap fullscreen)
+     ============================ */
+  .phone-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* L'icône lecture est légèrement décalée à droite */
+  .phone-play svg {
+    margin-left: 3px;
+  }
+
+  /* Au hover desktop : on révèle le play icon */
+  @media (hover: hover) and (pointer: fine) {
+    .phone:hover .phone-play {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+  }
+
+  /* Sur mobile (touch) : toujours visible mais discret,
+     pour que l'utilisateur comprenne d'emblée qu'on peut tapper.
+     Pas trop opaque pour ne pas masquer la vidéo. */
+  @media (hover: none), (max-width: 768px) {
+    .phone-play {
+      opacity: 0.85;
+      width: 48px;
+      height: 48px;
+    }
+    .phone-play svg { width: 18px; height: 18px; }
   }
 </style>
