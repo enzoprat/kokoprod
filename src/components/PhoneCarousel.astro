@@ -1,0 +1,109 @@
+---
+import PhoneMockup from './PhoneMockup.astro';
+
+export interface Slide {
+  videoSrc?: string;
+  poster?: string;
+  label?: string;
+}
+
+export interface Props {
+  index: string;
+  title: string;
+  subtitle?: string;
+  slides: Slide[];
+  duration?: number;
+  direction?: 'left' | 'right';
+}
+
+const { index, title, subtitle, slides, duration = 38, direction = 'left' } = Astro.props;
+const loop = [...slides, ...slides];
+---
+
+<section class="row" data-reveal>
+  <header class="row-head container-koko">
+    <span class="num">{index}</span>
+    <div class="meta">
+      <h3 class="title">{title}</h3>
+      {subtitle && <span class="sub">{subtitle}</span>}
+    </div>
+    <span class="rule"></span>
+  </header>
+
+  <div class="carousel">
+    <div
+      class="carousel-track"
+      style={`animation-duration:${duration}s; animation-direction:${direction === 'right' ? 'reverse' : 'normal'};`}
+    >
+      {loop.map((slide) => (
+        <div class="cell">
+          <PhoneMockup
+            videoSrc={slide.videoSrc}
+            poster={slide.poster}
+            label={slide.label}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .row {
+    padding: 28px 0 36px;
+  }
+
+  .row-head {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 26px;
+  }
+
+  .num {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.6);
+    padding-right: 4px;
+  }
+
+  .meta {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .sub {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.01em;
+  }
+
+  .rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(255,255,255,0.22), transparent);
+  }
+
+  .carousel {
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+
+  .cell {
+    padding: 0 14px;
+  }
+</style>

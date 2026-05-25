@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Clients from '../components/Clients.astro';
+import Manifesto from '../components/Manifesto.astro';
+import Services from '../components/Services.astro';
+import KineticDivider from '../components/KineticDivider.astro';
+import PhoneCarousel from '../components/PhoneCarousel.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Footer from '../components/Footer.astro';
+import { packagings } from '../data/projects.ts';
+---
+
+<Base>
+  <Header />
+
+  <main>
+    <Hero />
+
+    <Clients />
+
+    <!-- Réalisations REMONTÉES : on voit le travail dès le 2ème scroll -->
+    <section class="realisations" id="realisations">
+      <div class="container-koko intro" data-reveal>
+        <span class="eyebrow">— Travaux</span>
+        <h2>Cinq formats.<br /><em class="cursive">Mille variations.</em></h2>
+        <p>
+          Chaque rangée est un format que nous produisons régulièrement.
+          Survolez pour mettre en pause.
+        </p>
+      </div>
+
+      <div class="rows">
+        {packagings.map((p) => (
+          <PhoneCarousel
+            index={p.index}
+            title={p.title}
+            subtitle={p.subtitle}
+            slides={p.slides}
+            duration={p.duration}
+            direction={p.direction}
+          />
+        ))}
+      </div>
+    </section>
+
+    <Manifesto />
+
+    <Services />
+
+    <Faq />
+
+    <ContactForm />
+
+    <KineticDivider word="hello — hello — hello" duration={56} reverse />
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .realisations {
+    padding: 80px 0 60px;
+  }
+
+  @media (max-width: 768px) {
+    .realisations { padding: 50px 0 40px; }
+  }
+
+  .intro {
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto 56px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 18px;
+  }
+
+  .intro h2 {
+    margin: 0 0 18px;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #fff;
+    line-height: 1.05;
+  }
+
+  .intro p {
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 1rem;
+    max-width: 520px;
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+</style>

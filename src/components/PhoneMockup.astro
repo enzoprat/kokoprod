@@ -1,0 +1,104 @@
+---
+export interface Props {
+  videoSrc?: string;
+  poster?: string;
+  label?: string;
+}
+
+const { videoSrc, poster, label } = Astro.props;
+---
+
+<div class="phone" aria-label={label ?? 'Mockup vidéo'}>
+  <div class="phone-frame">
+    <div class="phone-notch" aria-hidden="true"></div>
+    <div class="phone-screen">
+      {videoSrc ? (
+        <video
+          src={videoSrc}
+          poster={poster}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+        ></video>
+      ) : (
+        <div class="placeholder">
+          <span>Vidéo à venir</span>
+        </div>
+      )}
+    </div>
+    <div class="phone-side" aria-hidden="true"></div>
+  </div>
+</div>
+
+<style>
+  .phone {
+    flex: 0 0 auto;
+    width: 170px;
+    aspect-ratio: 9 / 19.5;
+  }
+
+  @media (max-width: 640px) {
+    .phone { width: 140px; }
+  }
+
+  .phone-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(155deg, #1a1a1a 0%, #2c2c2c 50%, #0d0d0d 100%);
+    border-radius: 30px;
+    padding: 8px;
+    box-shadow:
+      0 25px 50px -15px rgba(0, 0, 0, 0.55),
+      0 12px 25px -10px rgba(0, 0, 0, 0.4),
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.08);
+  }
+
+  .phone-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 23px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .phone-screen video,
+  .phone-screen .placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      linear-gradient(135deg, rgba(162, 27, 253, 0.5), rgba(124, 0, 224, 0.7)),
+      repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.04) 0 10px,
+        transparent 10px 20px
+      );
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .phone-notch {
+    position: absolute;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 18px;
+    background: #000;
+    border-radius: 12px;
+    z-index: 2;
+  }
+</style>

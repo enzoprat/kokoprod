@@ -1,0 +1,60 @@
+---
+export interface Props {
+  word: string;
+  duration?: number;
+  reverse?: boolean;
+}
+
+const { word, duration = 32, reverse = false } = Astro.props;
+// répété assez de fois pour remplir n'importe quel viewport
+const items = Array.from({ length: 8 }, () => word);
+---
+
+<div class="kinetic" aria-hidden="true">
+  <div
+    class="marquee"
+    style={`animation-duration:${duration}s; animation-direction:${reverse ? 'reverse' : 'normal'};`}
+  >
+    {items.map((w, i) => (
+      <span class="word">
+        {w}
+        <span class="star">✦</span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .kinetic {
+    padding: 60px 0;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  .word {
+    display: inline-flex;
+    align-items: center;
+    gap: 56px;
+    padding-right: 56px;
+    font-size: clamp(5rem, 14vw, 16rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .star {
+    font-size: 0.35em;
+    color: rgba(255, 255, 255, 0.8);
+    -webkit-text-stroke: 0;
+    animation: spin 10s linear infinite;
+    display: inline-block;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>

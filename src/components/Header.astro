@@ -1,0 +1,334 @@
+---
+const navLinks = [
+  { href: '#manifesto', label: 'Manifeste' },
+  { href: '#services', label: 'Approches' },
+  { href: '#realisations', label: 'Travaux' },
+  { href: '#faq', label: 'FAQ' },
+  { href: '#contact', label: 'Contact' },
+];
+---
+
+<header class="header" id="site-header">
+  <div class="container-koko header-inner">
+    <a href="#top" class="brand" aria-label="koko prod — accueil">
+      <img src="/logo.png" alt="" class="brand-logo" width="48" height="48" />
+      <span class="brand-name">koko<span class="brand-dot">.</span>prod</span>
+    </a>
+
+    <nav class="nav" aria-label="Navigation principale">
+      {navLinks.map((l) => (
+        <a href={l.href}>{l.label}</a>
+      ))}
+    </nav>
+
+    <a href="#contact" class="cta glass glass-sheen">Échangeons</a>
+
+    <!-- Mobile burger -->
+    <button
+      type="button"
+      class="burger"
+      aria-label="Ouvrir le menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile fullscreen menu (hors header pour pouvoir overlay tout) -->
+<div
+  id="mobile-menu"
+  class="mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-hidden="true"
+  aria-label="Menu mobile"
+>
+  <div class="menu-inner">
+    <nav class="menu-nav" aria-label="Navigation mobile">
+      {navLinks.map((l, i) => (
+        <a href={l.href} class="menu-link" style={`--i:${i}`}>
+          <span class="menu-num">0{i + 1}</span>
+          <span class="menu-label">{l.label}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="menu-foot">
+      <a href="mailto:hello@kokoprod.fr" class="menu-mail">hello@kokoprod.fr</a>
+      <p class="menu-loc">Studio indépendant — Paris</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== Burger + scroll-aware header =====
+  const burger = document.querySelector<HTMLButtonElement>('.burger');
+  const menu = document.getElementById('mobile-menu');
+  const header = document.getElementById('site-header');
+
+  const openMenu = () => {
+    menu?.classList.add('is-open');
+    menu?.setAttribute('aria-hidden', 'false');
+    burger?.setAttribute('aria-expanded', 'true');
+    burger?.classList.add('is-open');
+    document.body.classList.add('menu-locked');
+  };
+  const closeMenu = () => {
+    menu?.classList.remove('is-open');
+    menu?.setAttribute('aria-hidden', 'true');
+    burger?.setAttribute('aria-expanded', 'false');
+    burger?.classList.remove('is-open');
+    document.body.classList.remove('menu-locked');
+  };
+
+  burger?.addEventListener('click', () => {
+    if (burger.classList.contains('is-open')) closeMenu();
+    else openMenu();
+  });
+
+  // Fermer en cliquant sur un lien
+  menu?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => closeMenu())
+  );
+
+  // Fermer à Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+
+  // Header qui s'affirme au scroll
+  let lastY = 0;
+  const onScroll = () => {
+    const y = window.scrollY;
+    if (y > 20) header?.classList.add('is-scrolled');
+    else header?.classList.remove('is-scrolled');
+    lastY = y;
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 16px 0;
+    transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+    background: rgba(90, 0, 158, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .header.is-scrolled {
+    background: rgba(90, 0, 158, 0.45);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px rgba(217, 168, 247, 0.6));
+  }
+
+  .brand-name { color: #fff; }
+  .brand-dot { color: #F5EBFF; }
+
+  .nav {
+    display: flex;
+    gap: 32px;
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .nav a {
+    color: rgba(255, 255, 255, 0.85);
+    transition: color 0.2s ease;
+  }
+
+  .nav a:hover { color: #fff; }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 22px;
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
+    overflow: hidden;
+  }
+  .cta:hover { transform: translateY(-1px); }
+
+  /* ============ Burger ============ */
+  .burger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease;
+  }
+  .burger:hover { background: rgba(255, 255, 255, 0.14); }
+
+  .burger span {
+    position: absolute;
+    left: 50%;
+    width: 18px;
+    height: 1.5px;
+    background: #fff;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), top 0.25s ease 0.1s;
+  }
+  .burger span:nth-child(1) { top: 38%; }
+  .burger span:nth-child(2) { top: 62%; }
+
+  .burger.is-open span {
+    top: 50%;
+    transition: top 0.2s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  }
+  .burger.is-open span:nth-child(1) { transform: translateX(-50%) rotate(45deg); }
+  .burger.is-open span:nth-child(2) { transform: translateX(-50%) rotate(-45deg); }
+
+  /* ============ Mobile menu ============ */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 49;
+    background: rgba(40, 0, 80, 0.55);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+    display: flex;
+    flex-direction: column;
+    padding: 100px 28px 40px;
+  }
+
+  .mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease;
+  }
+
+  .menu-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .menu-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .menu-link {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.45s ease;
+    transition-delay: calc(var(--i, 0) * 60ms + 100ms);
+  }
+
+  .mobile-menu.is-open .menu-link {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .menu-num {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.55);
+    flex-shrink: 0;
+    min-width: 24px;
+  }
+
+  .menu-label {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .menu-foot {
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+
+  .menu-mail {
+    display: inline-block;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    margin-bottom: 14px;
+  }
+
+  .menu-loc {
+    margin: 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* ============ Responsive ============ */
+  @media (max-width: 900px) {
+    .nav { display: none; }
+    .cta { display: none; }
+    .burger { display: block; }
+  }
+</style>
+
+<style is:global>
+  body.menu-locked {
+    overflow: hidden;
+  }
+</style>

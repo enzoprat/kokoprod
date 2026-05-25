@@ -1,0 +1,84 @@
+---
+// Logos clients — pour l'instant en text-only (typo).
+// Remplacez par <img src="/clients/cartier.svg"> quand vous aurez les SVG.
+const clients = [
+  'Cartier',
+  'Dior',
+  'Hermès',
+  'Chanel',
+  'Saint Laurent',
+  'Louis Vuitton',
+  'Balenciaga',
+  'Loewe',
+];
+const loop = [...clients, ...clients];
+---
+
+<section class="clients" data-reveal>
+  <div class="container-koko head">
+    <span class="eyebrow">Ils nous font confiance</span>
+    <h2 class="line">Des maisons exigeantes. <em class="cursive">Des récits qui durent.</em></h2>
+  </div>
+
+  <div class="marquee-wrap">
+    <div class="marquee" style="animation-duration: 48s;">
+      {loop.map((name) => (
+        <span class="logo">{name}</span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .clients {
+    padding: 60px 0 80px;
+    position: relative;
+  }
+
+  .head {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 18px;
+  }
+
+  .head h2 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.2;
+  }
+
+  .marquee-wrap {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
+  }
+
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 56px;
+    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.6);
+    white-space: nowrap;
+    transition: color 0.35s ease;
+    font-family: 'Inter', serif;
+  }
+
+  .logo:hover {
+    color: #fff;
+  }
+</style>

@@ -1,0 +1,162 @@
+---
+const faqs = [
+  {
+    q: "Combien de temps pour produire une vidéo ?",
+    a: "Entre 5 et 15 jours selon le format. Un reel hybride peut être livré en une semaine, un concept full IA demande davantage d'aller-retours créatifs.",
+  },
+  {
+    q: "Travaillez-vous avec des marques émergentes ?",
+    a: "Oui — les marques jeunes nous intéressent autant que les maisons établies. Le critère n'est pas la taille, c'est l'ambition créative du brief.",
+  },
+  {
+    q: "Quels outils IA utilisez-vous ?",
+    a: "Une combinaison des meilleurs modèles génératifs (vidéo, image, voix, musique) — selon les besoins de chaque projet. La sélection est invisible pour le client : seul le résultat compte.",
+  },
+  {
+    q: "Pouvez-vous gérer la diffusion sur nos réseaux ?",
+    a: "Non, on reste sur la création. On collabore en revanche volontiers avec vos équipes social ou agences média pour livrer dans les bons formats et calibrages.",
+  },
+  {
+    q: "Vos tarifs ?",
+    a: "Sur devis, à partir de la conversation. Chaque projet est cadré individuellement — durée, complexité, droits d'usage, exclusivité.",
+  },
+];
+---
+
+<section class="faq" id="faq">
+  <div class="container-koko">
+    <header class="head" data-reveal>
+      <span class="eyebrow">— Questions</span>
+      <h2>Ce qu'on nous demande<br /><em class="cursive">le plus souvent.</em></h2>
+    </header>
+
+    <div class="list" data-reveal>
+      {faqs.map((item, i) => (
+        <details class="item glass" name="faq" open={i === 0}>
+          <summary>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="q">{item.q}</span>
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </summary>
+          <div class="answer">
+            <p>{item.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    padding: 120px 0 80px;
+  }
+
+  .head {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 64px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 18px;
+  }
+
+  .head h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #fff;
+    line-height: 1.05;
+  }
+
+  .list {
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .item {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .item[open] {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.45),
+      0 22px 44px -20px rgba(40, 0, 80, 0.45);
+  }
+
+  .item summary {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 22px 28px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: background 0.25s ease;
+  }
+
+  .item summary::-webkit-details-marker { display: none; }
+
+  .item summary:hover .q { color: #fff; }
+
+  .num {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.55);
+    flex-shrink: 0;
+    width: 28px;
+  }
+
+  .q {
+    flex: 1;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: -0.005em;
+    transition: color 0.2s ease;
+  }
+
+  .icon {
+    color: rgba(255, 255, 255, 0.7);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .item[open] .icon {
+    transform: rotate(180deg);
+    color: #fff;
+  }
+
+  .answer {
+    padding: 0 28px 26px 74px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .answer p { margin: 0; }
+
+  @media (max-width: 640px) {
+    .answer { padding: 0 22px 22px 22px; }
+    .item summary { padding: 18px 22px; gap: 12px; }
+    .num { width: 22px; }
+  }
+</style>

@@ -1,0 +1,118 @@
+---
+---
+<section class="manifesto" id="manifesto">
+  <div class="container-koko">
+    <div class="grid">
+      <aside class="aside" data-reveal>
+        <span class="num">01 — Manifeste</span>
+      </aside>
+
+      <div class="body">
+        <p class="lead" data-reveal>
+          <span class="quote">«</span>
+          L'IA ne remplace pas le regard.<br />
+          Elle le <em class="cursive">libère</em>.
+          <span class="quote">»</span>
+        </p>
+
+        <div class="text" data-reveal style="--reveal-delay: 150ms;">
+          <p>
+            Chez koko prod, on n'oppose pas le réel et le génératif.
+            On les <strong>tisse</strong>. Une prise de vue tournée à Paris,
+            un univers généré à Tokyo, une voix posée dans la nuit — tout devient
+            matière pour raconter une marque autrement.
+          </p>
+          <p>
+            Pas de format imposé. Pas de gabarit. Chaque film naît d'un brief,
+            d'une obsession, d'un détail que personne n'aurait osé.
+          </p>
+        </div>
+
+        <div class="signature" data-reveal style="--reveal-delay: 280ms;">
+          <span>— Direction créative, koko prod</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .manifesto {
+    padding: 80px 0 100px;
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .manifesto { padding: 60px 0 70px; }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  .aside {
+    padding-top: 14px;
+  }
+
+  .num {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    position: relative;
+    padding-left: 28px;
+  }
+
+  .num::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 18px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  .lead {
+    font-size: clamp(2rem, 4.4vw, 3.6rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: #fff;
+    margin: 0 0 48px;
+    position: relative;
+  }
+
+  .lead .quote {
+    color: rgba(255, 255, 255, 0.35);
+    font-family: serif;
+    font-size: 0.85em;
+    padding: 0 0.1em;
+  }
+
+  .text {
+    max-width: 580px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  .text p { margin: 0 0 18px; }
+  .text strong { color: #fff; font-weight: 500; }
+
+  .signature {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.08em;
+  }
+</style>
