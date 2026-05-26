@@ -7,14 +7,14 @@ const year = new Date().getFullYear();
     <div class="meta">
       <div class="brand">
         <img src="/logo.png" alt="" width="36" height="36" />
-        <span>koko<span class="dot">.</span>prod</span>
+        <span>Koko <span class="dot">Studio Ai</span></span>
       </div>
       <div class="links">
         <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="mailto:hello@kokoprod.fr">Email</a>
+        <a href="mailto:hello@kokostudio.ai">Email</a>
       </div>
-      <p class="legal">© {year} koko prod — Paris</p>
+      <p class="legal">© {year} Koko Studio Ai — Paris</p>
     </div>
   </div>
 </footer>
@@ -51,7 +51,11 @@ const year = new Date().getFullYear();
     filter: drop-shadow(0 0 8px rgba(217, 168, 247, 0.5));
   }
 
-  .dot { color: #F5EBFF; }
+  .brand .dot {
+    color: #D9A8F7;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
 
   .links {
     display: flex;

@@ -10,9 +10,9 @@ const navLinks = [
 
 <header class="header" id="site-header">
   <div class="container-koko header-inner">
-    <a href="#top" class="brand" aria-label="koko prod — accueil">
+    <a href="#top" class="brand" aria-label="Koko Studio Ai — accueil">
       <img src="/logo.png" alt="" class="brand-logo" width="48" height="48" />
-      <span class="brand-name">koko<span class="brand-dot">.</span>prod</span>
+      <span class="brand-name">Koko <span class="brand-accent">Studio Ai</span></span>
     </a>
 
     <nav class="nav" aria-label="Navigation principale">
@@ -57,7 +57,7 @@ const navLinks = [
     </nav>
 
     <div class="menu-foot">
-      <a href="mailto:hello@kokoprod.fr" class="menu-mail">hello@kokoprod.fr</a>
+      <a href="mailto:hello@kokostudio.ai" class="menu-mail">hello@kokostudio.ai</a>
       <p class="menu-loc">Studio indépendant — Paris</p>
     </div>
   </div>
@@ -155,8 +155,16 @@ const navLinks = [
     filter: drop-shadow(0 0 12px rgba(217, 168, 247, 0.6));
   }
 
-  .brand-name { color: #fff; }
-  .brand-dot { color: #F5EBFF; }
+  .brand-name {
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .brand-accent {
+    color: #D9A8F7;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
 
   .nav {
     display: flex;

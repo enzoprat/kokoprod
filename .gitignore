@@ -32,6 +32,14 @@ contenu vidéos à placer dans mockup/
 # référence de design (image de design lourde, non utile au runtime)
 bg-gradient.reference.png
 
+# fichiers sources de l'identité visuelle (.ai, .pdf, PNG bruts d'origine)
+# Les versions optimisées sont commit dans /public (logo.png, og-image.png, favicons)
+public/Koko Studio Ai .pdf
+public/Koko studio - Planche logo décli.ai
+public/Koko studio ai - Icone (1).png
+public/Koko studio ai - Logo 1 (1).png
+public/Koko studio ai - Logo 2 (1).png
+
 # script utilitaire local
 compress-videos.sh
 

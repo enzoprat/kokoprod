@@ -7,9 +7,13 @@ export interface Props {
 }
 
 const {
-  title = 'koko prod — Studio de création de contenu IA',
-  description = "Agence de création de contenu IA. Vidéos hybrides (reels + IA) ou full IA. On donne vie à vos marques.",
+  title = 'Koko Studio Ai — Création de contenu IA pour les marques',
+  description = "Studio indépendant de création de contenu IA. Vidéos hybrides (reels filmés + IA) ou contenus full IA. Pour les marques qui veulent raconter sans compromis.",
 } = Astro.props;
+
+// URL canonique pour les partages (og:url, twitter:url)
+const siteUrl = 'https://kokostudio.ai';
+const ogImage = `${siteUrl}/og-image.png`;
 ---
 
 <!doctype html>
@@ -22,9 +26,31 @@ const {
     <title>{title}</title>
     <meta name="description" content={description} />
 
+    <!-- Open Graph (iMessage, WhatsApp, Facebook, LinkedIn) -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Koko Studio Ai" />
+    <meta property="og:url" content={siteUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Koko Studio Ai — Studio de création de contenu IA" />
+    <meta property="og:locale" content="fr_FR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#1F1F1F" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,9 +58,6 @@ const {
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap"
     />
-
-    <meta name="theme-color" content="#A21BFD" />
-    <link rel="icon" type="image/png" href="/logo.png" />
   </head>
 
   <body>

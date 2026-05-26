@@ -48,10 +48,11 @@ const items = Array.from({ length: 8 }, () => word);
 
   .star {
     font-size: 0.35em;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--koko-orange);
     -webkit-text-stroke: 0;
     animation: spin 10s linear infinite;
     display: inline-block;
+    text-shadow: 0 0 18px rgba(255, 111, 0, 0.45);
   }
 
   @keyframes spin {

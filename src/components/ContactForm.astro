@@ -36,12 +36,12 @@ const subjects = [
         <input
           type="hidden"
           name="subject"
-          value="Nouveau brief — koko prod"
+          value="Nouveau brief — Koko Studio Ai"
         />
         <input
           type="hidden"
           name="from_name"
-          value="koko prod · site web"
+          value="Koko Studio Ai · site web"
         />
         <!-- Honeypot anti-spam (laisser vide) -->
         <input
@@ -108,7 +108,7 @@ const subjects = [
           </button>
           <p class="alt">
             Ou simplement&nbsp;:
-            <a href="mailto:hello@kokoprod.fr">hello@kokoprod.fr</a>
+            <a href="mailto:hello@kokostudio.ai">hello@kokostudio.ai</a>
           </p>
         </div>
 
@@ -171,7 +171,7 @@ const subjects = [
         btn.disabled = false;
         label.textContent = 'Réessayer';
         msg.textContent =
-          "Impossible d'envoyer pour le moment. Écrivez-nous directement à hello@kokoprod.fr.";
+          "Impossible d'envoyer pour le moment. Écrivez-nous directement à hello@kokostudio.ai.";
         msg.dataset.state = 'error';
       }
     });
@@ -295,9 +295,9 @@ const subjects = [
   .field input:focus,
   .field textarea:focus,
   .field select:focus {
-    border-color: rgba(255, 255, 255, 0.55);
+    border-color: var(--koko-orange);
     background: rgba(255, 255, 255, 0.14);
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(255, 111, 0, 0.18);
   }
 
   .select-wrap {

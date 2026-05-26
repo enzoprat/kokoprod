@@ -3,11 +3,18 @@
 @tailwind utilities;
 
 :root {
+  /* ===== Palette officielle Koko Studio Ai ===== */
+  --koko-ink: #1F1F1F;     /* Noir profond — fond, textes sombres */
+  --koko-violet: #9900FF;  /* Violet électrique — primaire */
+  --koko-grey: #EBEBEB;    /* Gris clair */
+  --koko-orange: #FF6F00;  /* Orange vif — accent rare, signature */
+
+  /* Stops du gradient (re-calés sur la palette officielle) */
   --grad-1: #F5EBFF;
   --grad-2: #D9A8F7;
-  --grad-3: #A21BFD;
-  --grad-4: #7C00E0;
-  --grad-5: #5A009E;
+  --grad-3: #9900FF;
+  --grad-4: #7800CC;
+  --grad-5: #4A0080;
 
   --site-gradient:
     radial-gradient(
