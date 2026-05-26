@@ -11,8 +11,15 @@ const navLinks = [
 <header class="header" id="site-header">
   <div class="container-koko header-inner">
     <a href="#top" class="brand" aria-label="Koko Studio Ai — accueil">
-      <img src="/logo.png" alt="" class="brand-logo" width="48" height="48" />
-      <span class="brand-name">Koko <span class="brand-accent">Studio Ai</span></span>
+      <span class="brand-badge">
+        <img
+          src="/logo-wordmark.png"
+          alt="Koko Studio Ai"
+          class="brand-wordmark"
+          width="200"
+          height="83"
+        />
+      </span>
     </a>
 
     <nav class="nav" aria-label="Navigation principale">
@@ -139,31 +146,50 @@ const navLinks = [
   }
 
   .brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 12px;
-    font-weight: 700;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
     flex-shrink: 0;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .brand-logo {
-    width: 44px;
-    height: 44px;
+  .brand:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Badge clair derrière le wordmark : le logotype officiel a "Studio Ai"
+     en violet qui se confondrait avec le fond violet du site. Le badge
+     fournit un fond suffisamment clair pour que le subbrand soit lisible. */
+  .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      0 10px 28px -14px rgba(40, 0, 80, 0.45);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .brand:hover .brand-badge {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 1),
+      0 14px 32px -12px rgba(40, 0, 80, 0.55);
+  }
+
+  .brand-wordmark {
+    height: 32px;
+    width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 0 12px rgba(217, 168, 247, 0.6));
+    display: block;
   }
 
-  .brand-name {
-    color: #fff;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .brand-accent {
-    color: #D9A8F7;
-    font-weight: 300;
-    letter-spacing: 0.02em;
+  @media (max-width: 480px) {
+    .brand-badge { padding: 5px 12px; }
+    .brand-wordmark { height: 28px; }
   }
 
   .nav {
