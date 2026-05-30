@@ -51,7 +51,11 @@ export function initMotion() {
   // (avec contrôles iOS, son, scrubbing). C'est ce que l'utilisateur attend.
   // Ailleurs : Fullscreen API standard.
   // Dans tous les cas on dé-mute pendant le fullscreen, puis on re-mute en sortie.
-  const phones = document.querySelectorAll<HTMLElement>('.carousel .phone');
+  // Tous les phones cliquables : carousels des formats + mockup mobile du hero.
+  // (Pas la grappe desktop du hero qui a pointer-events:none, purement décorative.)
+  const phones = document.querySelectorAll<HTMLElement>(
+    '.carousel .phone, .mobile-tile .phone'
+  );
   phones.forEach((phone) => {
     const video = phone.querySelector('video');
     if (!video) return;
