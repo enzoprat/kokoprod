@@ -20,8 +20,13 @@ const desktopTiles = [
   { videoSrc: '/videos/coronagym.mp4', label: 'Coronagym' },
 ];
 
-// Sur mobile on en garde un seul, celui qui rend le mieux
-const mobileTile = desktopTiles[0]; // Cartier = très "premium"
+// Sur mobile : vidéo dédiée "hero-mobile" (= tests.mp4 fourni par le client),
+// conçue spécifiquement pour ce slot. Plus pertinent qu'un échantillon des
+// carousels qu'on retrouve plus bas dans la page.
+const mobileTile = {
+  videoSrc: '/videos/hero-mobile.mp4',
+  label: 'Koko Studio AI',
+};
 ---
 
 <!-- Desktop grid -->
