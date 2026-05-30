@@ -5,23 +5,15 @@ import HeroMockupGrid from './HeroMockupGrid.astro';
   <div class="container-koko hero-grid">
     <!-- Colonne texte (gauche desktop, full mobile) -->
     <div class="hero-text">
-      <img
-        src="/logo-white.png"
-        alt=""
-        class="hero-logo"
-        width="120"
-        height="90"
-        data-reveal
-      />
-
-      <div class="meta" data-reveal style="--reveal-delay: 80ms;">
+      <div class="meta" data-reveal>
         <span class="dot"></span>
         <span>Première agence d'IA générative</span>
       </div>
 
-      <h1 class="title" data-reveal style="--reveal-delay: 160ms;">
-        <span class="line">Koko</span>
-        <span class="line"><em class="cursive">Studio</em> AI</span>
+      <h1 class="title" data-reveal style="--reveal-delay: 120ms;">
+        <span class="line">L'image</span>
+        <span class="line">qu'aucune <em class="cursive">caméra</em></span>
+        <span class="line">ne peut filmer.</span>
       </h1>
 
       <p class="lede" data-reveal style="--reveal-delay: 120ms;">
@@ -101,19 +93,6 @@ import HeroMockupGrid from './HeroMockupGrid.astro';
     .meta { justify-content: center; display: inline-flex; }
     .actions { justify-content: center; }
     .scroll-hint { display: none; }
-  }
-
-  .hero-logo {
-    height: 88px;
-    width: auto;
-    object-fit: contain;
-    display: block;
-    margin-bottom: 28px;
-    filter: drop-shadow(0 0 24px rgba(217, 168, 247, 0.5));
-  }
-
-  @media (max-width: 960px) {
-    .hero-logo { margin-left: auto; margin-right: auto; height: 76px; }
   }
 
   .meta {
