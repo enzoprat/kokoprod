@@ -1,43 +1,96 @@
 ---
-// Logos clients — pour l'instant en text-only (typo).
-// Remplacez par <img src="/clients/cartier.svg"> quand vous aurez les SVG.
-const clients = [
-  'Cartier',
-  'Dior',
-  'Hermès',
-  'Chanel',
-  'Saint Laurent',
-  'Louis Vuitton',
-  'Balenciaga',
-  'Loewe',
+// Section "Ils nous ont fait confiance"
+// 3 bulles de stats animées (compteur qui s'incrémente quand visible)
+const stats = [
+  { value: 30, prefix: '+', label: 'clients accompagnés' },
+  { value: 100, prefix: '+', label: 'projets déployés' },
+  { value: 10000, prefix: '+', label: 'contenus IA créés' },
 ];
-const loop = [...clients, ...clients];
 ---
 
 <section class="clients" data-reveal>
-  <div class="container-koko head">
-    <span class="eyebrow">Ils nous font confiance</span>
-    <h2 class="line">Des maisons exigeantes. <em class="cursive">Des récits qui durent.</em></h2>
-  </div>
+  <div class="container-koko">
+    <header class="head" data-reveal>
+      <span class="eyebrow">Confiance</span>
+      <h2>Ils nous ont fait <em class="cursive">confiance</em></h2>
+    </header>
 
-  <div class="marquee-wrap">
-    <div class="marquee" style="animation-duration: 48s;">
-      {loop.map((name) => (
-        <span class="logo">{name}</span>
+    <div class="stats">
+      {stats.map((s, i) => (
+        <article
+          class="stat glass glass-sheen"
+          data-reveal
+          style={`--reveal-delay: ${i * 120}ms;`}
+        >
+          <div class="stat-value">
+            <span class="prefix">{s.prefix}</span><span
+              class="num"
+              data-count-to={s.value}
+            >0</span>
+          </div>
+          <p class="stat-label">{s.label}</p>
+        </article>
       ))}
     </div>
   </div>
 </section>
 
+<script>
+  // Compteur animé : démarre quand la stat entre dans le viewport
+  const formatNumber = (n: number) => {
+    return new Intl.NumberFormat('fr-FR').format(n);
+  };
+
+  const animateCount = (el: HTMLElement) => {
+    const target = parseInt(el.dataset.countTo || '0', 10);
+    const duration = 1600;
+    const start = performance.now();
+
+    const step = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(target * eased);
+      el.textContent = formatNumber(current);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = formatNumber(target);
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  const counters = document.querySelectorAll<HTMLElement>('.stat .num[data-count-to]');
+  if (counters.length && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            animateCount(entry.target as HTMLElement);
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.5 }
+    );
+    counters.forEach((c) => io.observe(c));
+  } else {
+    // Fallback : on affiche direct la valeur finale
+    counters.forEach((c) => {
+      c.textContent = formatNumber(parseInt(c.dataset.countTo || '0', 10));
+    });
+  }
+</script>
+
 <style>
   .clients {
-    padding: 60px 0 80px;
+    padding: 100px 0 80px;
     position: relative;
   }
 
   .head {
     text-align: center;
-    margin-bottom: 48px;
+    margin-bottom: 64px;
   }
 
   .eyebrow {
@@ -46,39 +99,82 @@ const loop = [...clients, ...clients];
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: 18px;
   }
 
   .head h2 {
     margin: 0;
-    font-size: clamp(1.5rem, 3vw, 2.4rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: rgba(255, 255, 255, 0.95);
-    line-height: 1.2;
-  }
-
-  .marquee-wrap {
-    overflow: hidden;
-    mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 8%, #000 92%, transparent 100%);
-  }
-
-  .logo {
-    display: inline-flex;
-    align-items: center;
-    padding: 0 56px;
-    font-size: clamp(1.8rem, 3.6vw, 2.8rem);
-    font-weight: 300;
-    letter-spacing: 0.04em;
-    color: rgba(255, 255, 255, 0.6);
-    white-space: nowrap;
-    transition: color 0.35s ease;
-    font-family: 'Inter', serif;
-  }
-
-  .logo:hover {
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
     color: #fff;
+    line-height: 1.1;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .stats { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  .stat {
+    position: relative;
+    padding: 44px 32px 36px;
+    border-radius: 28px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.4s ease;
+  }
+
+  .stat:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      0 32px 60px -22px rgba(40, 0, 80, 0.6);
+  }
+
+  .stat-value {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: #fff;
+  }
+
+  .prefix {
+    color: var(--koko-orange);
+    font-size: 0.62em;
+    font-weight: 700;
+    margin-right: 4px;
+    position: relative;
+    top: -0.15em;
+  }
+
+  .num {
+    background: linear-gradient(180deg, #fff 0%, #F5EBFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-label {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.78);
+    letter-spacing: 0.01em;
   }
 </style>

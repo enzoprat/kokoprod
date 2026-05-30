@@ -40,8 +40,14 @@ public/Koko studio ai - Icone (1).png
 public/Koko studio ai - Logo 1 (1).png
 public/Koko studio ai - Logo 2 (1).png
 
-# script utilitaire local
+# scripts utilitaires locaux
 compress-videos.sh
+compress-koko-studio.sh
+compress-remaining.sh
+compress-remaining2.sh
+
+# dossier sources des vidéos brutes du client
+KOKO STUDIO/
 
 # config Claude Code (local)
 .claude/

@@ -2,24 +2,21 @@
 const navLinks = [
   { href: '#manifesto', label: 'Manifeste' },
   { href: '#services', label: 'Approches' },
-  { href: '#realisations', label: 'Travaux' },
+  { href: '#realisations', label: 'Formats' },
   { href: '#faq', label: 'FAQ' },
-  { href: '#contact', label: 'Contact' },
 ];
 ---
 
 <header class="header" id="site-header">
   <div class="container-koko header-inner">
-    <a href="#top" class="brand" aria-label="Koko Studio Ai — accueil">
-      <span class="brand-badge">
-        <img
-          src="/logo-wordmark.png"
-          alt="Koko Studio Ai"
-          class="brand-wordmark"
-          width="200"
-          height="83"
-        />
-      </span>
+    <a href="#top" class="brand" aria-label="Koko Studio AI, accueil">
+      <img
+        src="/logo-white.png"
+        alt="Koko Studio AI"
+        class="brand-icon"
+        width="60"
+        height="45"
+      />
     </a>
 
     <nav class="nav" aria-label="Navigation principale">
@@ -65,7 +62,7 @@ const navLinks = [
 
     <div class="menu-foot">
       <a href="mailto:hello@kokostudio.ai" class="menu-mail">hello@kokostudio.ai</a>
-      <p class="menu-loc">Studio indépendant — Paris</p>
+      <p class="menu-loc">Première agence d'IA générative</p>
     </div>
   </div>
 </div>
@@ -156,61 +153,23 @@ const navLinks = [
     transform: translateY(-1px);
   }
 
-  /* Badge verre dépoli — même esthétique que les CTA (translucide, sheen)
-     mais avec un backdrop-filter qui DÉSATURE + ÉCLAIRCIT le fond derrière
-     pour que "Studio Ai" violet du logo reste lisible. Astuce :
-     saturate(0.4) atténue le violet du gradient, brightness(1.5) éclaircit. */
-  .brand-badge {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 14px;
-    border-radius: 999px;
-    overflow: hidden;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.25));
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(20px) saturate(0.4) brightness(1.5);
-    -webkit-backdrop-filter: blur(20px) saturate(0.4) brightness(1.5);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      0 10px 24px -14px rgba(40, 0, 80, 0.45);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  /* Reflet diagonal type "verre liquide" (sheen) */
-  .brand-badge::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(
-      115deg,
-      transparent 0%,
-      transparent 40%,
-      rgba(255, 255, 255, 0.35) 50%,
-      transparent 60%,
-      transparent 100%
-    );
-    pointer-events: none;
-    opacity: 0.7;
-  }
-
-  .brand:hover .brand-badge {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      0 14px 30px -12px rgba(40, 0, 80, 0.55);
-  }
-
-  .brand-wordmark {
-    height: 32px;
+  /* Logo coco blanc, version icône seule (sans wordmark).
+     C'est le logo principal du site selon le brief Koko Studio AI. */
+  .brand-icon {
+    height: 44px;
     width: auto;
     object-fit: contain;
     display: block;
+    filter: drop-shadow(0 0 14px rgba(217, 168, 247, 0.45));
+    transition: filter 0.3s ease;
+  }
+
+  .brand:hover .brand-icon {
+    filter: drop-shadow(0 0 18px rgba(255, 111, 0, 0.5));
   }
 
   @media (max-width: 480px) {
-    .brand-badge { padding: 5px 12px; }
-    .brand-wordmark { height: 28px; }
+    .brand-icon { height: 38px; }
   }
 
   .nav {

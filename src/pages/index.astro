@@ -5,7 +5,6 @@ import Hero from '../components/Hero.astro';
 import Clients from '../components/Clients.astro';
 import Manifesto from '../components/Manifesto.astro';
 import Services from '../components/Services.astro';
-import KineticDivider from '../components/KineticDivider.astro';
 import PhoneCarousel from '../components/PhoneCarousel.astro';
 import Faq from '../components/Faq.astro';
 import ContactForm from '../components/ContactForm.astro';
@@ -24,8 +23,8 @@ import { packagings } from '../data/projects.ts';
     <!-- Réalisations REMONTÉES : on voit le travail dès le 2ème scroll -->
     <section class="realisations" id="realisations">
       <div class="container-koko intro" data-reveal>
-        <span class="eyebrow">— Travaux</span>
-        <h2>Cinq formats.<br /><em class="cursive">Mille variations.</em></h2>
+        <span class="eyebrow">Formats</span>
+        <h2>4 formats. <em class="cursive">Mille variations.</em></h2>
         <p>
           Chaque rangée est un format que nous produisons régulièrement.
           Survolez pour mettre en pause.
@@ -53,8 +52,6 @@ import { packagings } from '../data/projects.ts';
     <Faq />
 
     <ContactForm />
-
-    <KineticDivider word="Koko Studio Ai · Koko Studio Ai" duration={56} reverse />
   </main>
 
   <Footer />

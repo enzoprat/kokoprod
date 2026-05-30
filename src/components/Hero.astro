@@ -5,20 +5,28 @@ import HeroMockupGrid from './HeroMockupGrid.astro';
   <div class="container-koko hero-grid">
     <!-- Colonne texte (gauche desktop, full mobile) -->
     <div class="hero-text">
-      <div class="meta" data-reveal>
+      <img
+        src="/logo-white.png"
+        alt=""
+        class="hero-logo"
+        width="120"
+        height="90"
+        data-reveal
+      />
+
+      <div class="meta" data-reveal style="--reveal-delay: 80ms;">
         <span class="dot"></span>
-        <span>Studio indépendant — Paris</span>
+        <span>Première agence d'IA générative</span>
       </div>
 
-      <h1 class="title" data-reveal>
-        <span class="line">L'image</span>
-        <span class="line">qu'aucune <em class="cursive">caméra</em></span>
-        <span class="line">ne peut filmer.</span>
+      <h1 class="title" data-reveal style="--reveal-delay: 160ms;">
+        <span class="line">Koko</span>
+        <span class="line"><em class="cursive">Studio</em> AI</span>
       </h1>
 
       <p class="lede" data-reveal style="--reveal-delay: 120ms;">
-        Koko Studio Ai conçoit des vidéos courtes pour les marques qui veulent
-        raconter sans compromis — entre <strong>réel filmé</strong> et <strong>univers générés par IA</strong>.
+        Votre créateur de vidéos en <strong>intelligence artificielle</strong>,
+        pour les marques qui veulent raconter sans compromis.
       </p>
 
       <div class="actions" data-reveal style="--reveal-delay: 220ms;">
@@ -93,6 +101,19 @@ import HeroMockupGrid from './HeroMockupGrid.astro';
     .meta { justify-content: center; display: inline-flex; }
     .actions { justify-content: center; }
     .scroll-hint { display: none; }
+  }
+
+  .hero-logo {
+    height: 88px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 28px;
+    filter: drop-shadow(0 0 24px rgba(217, 168, 247, 0.5));
+  }
+
+  @media (max-width: 960px) {
+    .hero-logo { margin-left: auto; margin-right: auto; height: 76px; }
   }
 
   .meta {

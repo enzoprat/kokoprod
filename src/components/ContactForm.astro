@@ -11,13 +11,13 @@ const subjects = [
   <div class="container-koko">
     <div class="wrap glass glass-sheen" data-reveal>
       <div class="head">
-        <span class="eyebrow">— Contact</span>
+        <span class="eyebrow">Contact</span>
         <h2>
           Un brief, une idée,<br />
           <em class="cursive">une obsession ?</em>
         </h2>
         <p class="sub">
-          Remplissez ces quelques champs — on revient vers vous sous 48h.
+          Remplissez ces quelques champs, on revient vers vous sous 48h.
         </p>
       </div>
 
@@ -36,12 +36,12 @@ const subjects = [
         <input
           type="hidden"
           name="subject"
-          value="Nouveau brief — Koko Studio Ai"
+          value="Nouveau brief Koko Studio AI"
         />
         <input
           type="hidden"
           name="from_name"
-          value="Koko Studio Ai · site web"
+          value="Koko Studio AI · site web"
         />
         <!-- Honeypot anti-spam (laisser vide) -->
         <input
@@ -55,12 +55,12 @@ const subjects = [
         <div class="row">
           <label class="field">
             <span class="label">Nom</span>
-            <input type="text" name="name" required autocomplete="name" placeholder="Alex Dupont" />
+            <input type="text" name="name" required autocomplete="name" placeholder="Martin Dupont" />
           </label>
 
           <label class="field">
             <span class="label">Email</span>
-            <input type="email" name="email" required autocomplete="email" placeholder="alex@maison.com" />
+            <input type="email" name="email" required autocomplete="email" placeholder="martin.dupont@gmail.com" />
           </label>
         </div>
 
@@ -154,7 +154,7 @@ const subjects = [
         if (res.ok && json.success) {
           btn.dataset.state = 'success';
           label.textContent = 'Envoyé';
-          msg.textContent = "Merci — on revient vers vous sous 48h.";
+          msg.textContent = "Merci, on revient vers vous sous 48h.";
           msg.dataset.state = 'success';
           form.reset();
           // On laisse l'état "envoyé" visible quelques secondes

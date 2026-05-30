@@ -2,23 +2,23 @@
 const faqs = [
   {
     q: "Combien de temps pour produire une vidéo ?",
-    a: "Entre 5 et 15 jours selon le format. Un reel hybride peut être livré en une semaine, un concept full IA demande davantage d'aller-retours créatifs.",
+    a: "Tout dépend de la durée totale de la vidéo souhaitée, mais les délais de livraison sont en moyenne entre 10 et 15 jours ouvrés, en fonction du brief.",
   },
   {
     q: "Travaillez-vous avec des marques émergentes ?",
-    a: "Oui — les marques jeunes nous intéressent autant que les maisons établies. Le critère n'est pas la taille, c'est l'ambition créative du brief.",
+    a: "Oui, les marques jeunes nous intéressent autant que les maisons établies. Le critère n'est pas la taille, c'est l'ambition créative du brief.",
   },
   {
     q: "Quels outils IA utilisez-vous ?",
-    a: "Une combinaison des meilleurs modèles génératifs (vidéo, image, voix, musique) — selon les besoins de chaque projet. La sélection est invisible pour le client : seul le résultat compte.",
+    a: "Une combinaison des meilleurs modèles génératifs (vidéo, image, voix, musique), selon les besoins de chaque projet. La sélection est invisible pour le client : seul le résultat compte.",
   },
   {
     q: "Pouvez-vous gérer la diffusion sur nos réseaux ?",
-    a: "Non, on reste sur la création. On collabore en revanche volontiers avec vos équipes social ou agences média pour livrer dans les bons formats et calibrages.",
+    a: 'Oui, nous pouvons vous proposer une offre de community management avec notre agence koko Productions : <a href="https://www.agence-koko.fr" target="_blank" rel="noopener noreferrer">www.agence-koko.fr</a>',
   },
   {
     q: "Vos tarifs ?",
-    a: "Sur devis, à partir de la conversation. Chaque projet est cadré individuellement — durée, complexité, droits d'usage, exclusivité.",
+    a: "Sur devis, à partir de la conversation. Chaque projet est cadré individuellement : durée, complexité, droits d'usage, exclusivité.",
   },
 ];
 ---
@@ -26,7 +26,7 @@ const faqs = [
 <section class="faq" id="faq">
   <div class="container-koko">
     <header class="head" data-reveal>
-      <span class="eyebrow">— Questions</span>
+      <span class="eyebrow">Questions</span>
       <h2>Ce qu'on nous demande<br /><em class="cursive">le plus souvent.</em></h2>
     </header>
 
@@ -43,7 +43,7 @@ const faqs = [
             </span>
           </summary>
           <div class="answer">
-            <p>{item.a}</p>
+            <p set:html={item.a}></p>
           </div>
         </details>
       ))}

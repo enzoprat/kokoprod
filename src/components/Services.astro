@@ -1,18 +1,16 @@
 ---
 const services = [
   {
-    num: '02',
+    num: '01',
     title: 'Hybride',
-    sub: 'Reels filmés × IA',
-    text: "Vos prises de vue, augmentées. On tourne léger, puis l'IA densifie l'image — habillage, atmosphère, effets impossibles. Le réel reste le socle.",
-    points: ['Direction de tournage', 'Post-production augmentée', 'Livrables verticaux 9:16 et 4:5'],
+    sub: 'Réel filmé x IA',
+    text: "Le format hybride part d'un élément réel : un lieu, un produit, un objet ou une scène. L'IA vient ensuite enrichir l'image avec une atmosphère, un décor ou un effet impossible à créer facilement en réel.",
   },
   {
-    num: '03',
+    num: '02',
     title: 'Full IA',
     sub: '100% génératif',
-    text: "Quand l'objet, le lieu, la scène n'existent pas — ou pas encore. On les fait naître. Direction artistique pointue, génération vidéo, voix, musique.",
-    points: ['Concept & moodboard', 'Génération image / vidéo / audio', 'Itérations rapides, cadre maîtrisé'],
+    text: "Le full IA permet de créer une vidéo entièrement à partir d'une idée. C'est le bon format quand on veut imaginer un lieu, une scène ou un univers qui n'existe pas encore, avec une direction artistique totalement libre. On part d'une idée, et l'IA construit tout l'univers autour.",
   },
 ];
 ---
@@ -21,7 +19,7 @@ const services = [
   <div class="container-koko">
     <header class="head" data-reveal>
       <span class="eyebrow">Approches</span>
-      <h2>Deux manières de raconter.<br /><em class="cursive">Une seule exigence.</em></h2>
+      <h2>Deux manières de raconter, une seule exigence.</h2>
     </header>
 
     <div class="grid">
@@ -36,12 +34,6 @@ const services = [
           <h3>{s.title}</h3>
 
           <p class="text">{s.text}</p>
-
-          <ul class="bullets">
-            {s.points.map((p) => (
-              <li>{p}</li>
-            ))}
-          </ul>
         </article>
       ))}
     </div>
